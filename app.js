@@ -21,6 +21,7 @@ app.get('/', function (req, res) {
   res.send('Welcome to the default page!  <br> <br>' +
     'Try going to different URIs by adding these at the end: <br> <br>' +
     '/hello <br>' +
+    '/recursionfib/?n=10 *fibonacci grows really fast <br>' +
     '/big <br>' +
     '/json <br>' +
     '/greeting/yourname <br>' +
@@ -31,6 +32,39 @@ app.get('/', function (req, res) {
     'Fork the source code from <a href="https://github.com/denisecase/node-express-app">https://github.com/denisecase/node-express-app</a>'
   )
 })
+
+app.get('/recursionfib', function(req, res){
+  const n = req.query.n
+  const fibValue = fib(n)
+  const append = toAppend(n)
+  res.send(`The ${n}${append} number in the fibonaci sequence is ${fibValue}`)
+})
+
+function toAppend(n){
+  const letn = n % 10
+  if (n % 100 < 11 || n % 100 > 19) {
+    if (letn == 1) {
+      return 'st'
+    }
+    if (letn == 2){
+      return 'nd'
+    }
+    if (letn == 3) {
+      return 'rd'
+    }
+  }
+  return 'th'
+}
+
+function fib(n){
+  if(n == 0){
+    return 0
+  }
+  if(n == 1){
+    return 1
+  }
+  return fib(n-1) + fib(n-2)
+}
 
 // or use the new arrow function syntax
 // respond with text
